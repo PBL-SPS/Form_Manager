@@ -3,6 +3,11 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const compression = require("compression");
+const bcrypt = require("bcrypt")
+const util = require("util")
+
+bcrypt.hash = util.promisify(bcrypt.hash)
+bcrypt.compare = util.promisify(bcrypt.compare)
 
 var indexRouter = require("./routes/index");
 const apiErrorHandler = require("./errors/apiErrorhandler");

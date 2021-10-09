@@ -1,7 +1,12 @@
 const util = require("util");
 const mysql = require("mysql");
-const { DB } = require("../shared/constants");
-require("dotenv").config();
+const path = require("path");
+console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV === "development") {
+    require("dotenv").config({
+        path: path.join(__dirname, "../.env.development"),
+    });
+}
 
 console.log({
     host: process.env.DB_HOST,
