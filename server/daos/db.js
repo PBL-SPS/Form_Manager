@@ -1,6 +1,5 @@
 const util = require("util");
 const mysql = require("mysql");
-const { DB } = require("../shared/constants");
 const path = require("path");
 console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV === "development") {

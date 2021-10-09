@@ -2,6 +2,7 @@ const { BadRequestError, ConflictError } = require("restify-errors");
 const { TABLES } = require("../shared/constants");
 const Base = require("./Base");
 const dbConn = require("./db");
+const bcrypt = require("bcrypt");
 
 class Admin extends Base {
     constructor(tableName, conn) {
@@ -10,6 +11,7 @@ class Admin extends Base {
 
     async create(createData) {
         try {
+            createData.password = await bcrypt.hash(createData.password, 10);
             return await super.create(createData);
         } catch (error) {
             if (error.code === "ER_DUP_ENTRY") {
