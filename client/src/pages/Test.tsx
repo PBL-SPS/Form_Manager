@@ -2,12 +2,15 @@ import React from "react";
 import { useQuery } from "react-query";
 import { Button, Paper, Skeleton } from "@mui/material";
 import { Box } from "@mui/system";
+import { useAppSelector } from "../hooks/redux-hooks";
+import { selectUser } from "../redux/auth/slice";
 const Test = () => {
     const { isLoading, error, data, refetch }: any = useQuery("repoData", () =>
         fetch("https://api.github.com/repos/tannerlinsley/react-query").then(
             (res) => res.json()
         )
     );
+    const user = useAppSelector(selectUser);
 
     if (isLoading)
         return (
@@ -55,6 +58,13 @@ const Test = () => {
                     <strong>👀 {data.subscribers_count}</strong>{" "}
                     <strong>✨ {data.stargazers_count}</strong>{" "}
                     <strong>🍴 {data.forks_count}</strong>
+                    <pre
+                        style={{
+                            width: "50px",
+                        }}
+                    >
+                        {JSON.stringify(user,null,2)}
+                    </pre>
                     <Box mt={3}>
                         <Button variant="contained" onClick={refetch}>
                             Reload
