@@ -44,6 +44,17 @@ class Base {
         ]);
         return this.conn.query(sql);
     }
+    
+    async updateByProperty(property, value, updateProperty, updateValue) {
+        let sql = mysql.format("UPDATE ?? SET ??=? WHERE ??=?", [
+            this.table,
+            updateProperty,
+            updateValue,
+            property,
+            value,
+        ]);
+        return this.conn.query(sql);
+    }
 }
 
 module.exports = Base;
