@@ -1,3 +1,4 @@
 exports.TABLES = {
-    ADMIN: "admins",
+  ADMIN: "admins",
+  DIVISION: "divisions",
 };
