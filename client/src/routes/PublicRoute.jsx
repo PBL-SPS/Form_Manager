@@ -4,18 +4,19 @@ function PublicRoute({ children, isAuthenticated, ...rest }) {
     return (
         <Route
             {...rest}
-            render={({ location }) =>
-                // !isAuthenticated ? (
-                    children
-                // ) : (
-                //     <Redirect
-                //         to={{
-                //             pathname: "/home",
-                //             state: { from: location },
-                //         }}
-                //     />
-                // )
-            }
+            render={({ location }) => (
+                <>
+                    {children}
+                    {isAuthenticated && location.pathname === "/login" ? (
+                        <Redirect
+                            to={{
+                                pathname: "/",
+                                state: { from: location },
+                            }}
+                        />
+                    ) : null}
+                </>
+            )}
         />
     );
 }
