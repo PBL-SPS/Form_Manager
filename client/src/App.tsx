@@ -7,7 +7,9 @@ import {
 import { Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Header from "./components/Header";
 import { useAppSelector } from "./hooks/redux-hooks";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import { selectAuthState } from "./redux/auth/slice";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -18,7 +20,7 @@ import { LS_KEYS } from "./utils/constants";
 const queryClient = new QueryClient();
 const darkTheme = createTheme({
     palette: {
-        mode: "light",
+        mode: "dark",
     },
 });
 function App() {
@@ -37,8 +39,8 @@ function App() {
             <QueryClientProvider client={queryClient}>
                 <ThemeProvider theme={darkTheme}>
                     <CssBaseline />
-
                     <Router>
+                        <Header />
                         <Suspense
                             fallback={<CircularProgress color="primary" />}
                         >
@@ -48,7 +50,7 @@ function App() {
                                     exact
                                     isAuthenticated={isAuthenticated}
                                 >
-                                    <div>This is public</div>
+                                    <Home />
                                 </PublicRoute>
 
                                 <PublicRoute

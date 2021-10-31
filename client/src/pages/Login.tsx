@@ -47,6 +47,7 @@ const Login = () => {
             justifyContent="center"
             alignItems="center"
             flexGrow={1}
+            px={2}
         >
             <Paper style={{ overflow: "hidden" }}>
                 {isLoading && <LinearProgress />}

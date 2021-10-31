@@ -12,7 +12,13 @@ import {
     setAuth,
 } from "../redux/auth/slice";
 
-const AuthWrapper = ({ children }: { children: ReactNode }) => {
+const AuthWrapper = ({
+    children,
+    spinner = true,
+}: {
+    children: ReactNode;
+    spinner?: Boolean | undefined;
+}) => {
     const history = useHistory();
     const authState = useAppSelector(selectAuthState);
     const tokens = useAppSelector(selectTokens);
@@ -20,10 +26,10 @@ const AuthWrapper = ({ children }: { children: ReactNode }) => {
 
     const { isLoading, isError } = useQuery("user", async () => {
         if (authState !== "LOGGINGIN") return;
-        const res = await AxiosInst.post("/admin/refreshToken", {
+        const res = await AxiosInst.post<any, any>("/admin/refreshToken", {
             refreshToken: tokens.refreshToken,
         });
-        const admin = await AxiosInst.get("/admin/getAdminByToken", {
+        const admin = await AxiosInst.get<any, any>("/admin/getAdminByToken", {
             headers: {
                 authorization: "Bearer " + res.data.data.accessToken,
             },
@@ -49,7 +55,7 @@ const AuthWrapper = ({ children }: { children: ReactNode }) => {
         return () => {};
     }, [isError]);
 
-    if (authState === "LOGGINGIN" || isLoading) {
+    if ((authState === "LOGGINGIN" || isLoading) && spinner) {
         return (
             <Box
                 flexGrow={1}
@@ -62,7 +68,7 @@ const AuthWrapper = ({ children }: { children: ReactNode }) => {
             </Box>
         );
     }
-    return children;
+    return <>{children}</>;
 };
 
 export default AuthWrapper;

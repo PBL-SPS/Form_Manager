@@ -1,3 +1,4 @@
+import React from 'react'
 import { CircularProgress } from "@mui/material";
 import { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";

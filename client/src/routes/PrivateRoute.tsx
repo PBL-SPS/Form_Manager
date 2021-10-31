@@ -1,6 +1,14 @@
 import { Route, Redirect } from "react-router-dom";
 
-function PrivateRoute({ children, isAuthenticated, ...rest }) {
+function PrivateRoute({
+    children,
+    isAuthenticated,
+    ...rest
+}: {
+    children: any;
+    isAuthenticated: boolean;
+    rest: any;
+}) {
     return (
         <Route
             {...rest}
