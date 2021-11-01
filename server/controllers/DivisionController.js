@@ -15,3 +15,15 @@ exports.createDivision = async (req, res, next) => {
     return next(error);
   }
 };
+
+exports.getDivision = async (req, res, next) => {
+  try {
+    let divData = await DivisionService.getDivision();
+
+    res.json({
+      data: divData,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};

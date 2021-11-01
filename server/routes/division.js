@@ -12,4 +12,6 @@ divisionRouter.post(
   divisionController.createDivision
 );
 
+divisionRouter.get("/get", authenticateToken, divisionController.getDivision);
+
 module.exports = divisionRouter;
