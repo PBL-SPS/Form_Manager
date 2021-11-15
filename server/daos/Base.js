@@ -7,9 +7,11 @@ class Base {
         this.conn = dbConn;
     }
 
-    async create(createData) {
+    async create(createData, generateId=true) {
         let data = { ...createData };
-        data.id = uuidv4();
+        if (generateId) {
+            data.id = uuidv4();
+        }
         let columns = Object.keys(data);
         let values = Object.values(data);
         let sql = "INSERT INTO ?? ";

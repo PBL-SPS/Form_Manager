@@ -9,7 +9,7 @@ class Department extends Base {
 
   async create(createdata) {
     try {
-      return await super.create(createdata);
+      return await super.create(createdata, false);
     } catch (error) {
       throw error;
     }

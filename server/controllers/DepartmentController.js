@@ -3,7 +3,7 @@ const DepartmentService = require("../services/DepartmentService");
 exports.createDepartment = async (req, res, next) => {
   try {
     let deptData = req.body;
-    let departmentId = await DepartmentService.createDepartmeent(deptData);
+    let departmentId = await DepartmentService.createDepartment(deptData);
 
     res.json({
       message: "Department created successfully",

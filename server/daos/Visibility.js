@@ -10,7 +10,7 @@ class Visibility extends Base {
   async create(visibility) {
     try {
       // const { department, year, division, batch} = visibility;
-      return await super.create(visibility);
+      return await super.create(visibility, false);
     } catch (error) {
       console.error(error);
     }

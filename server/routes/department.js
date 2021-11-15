@@ -6,16 +6,15 @@ const validateBody = require("../middlewares/validateBody");
 const Department = require("../schemas/Department");
 
 departmentRouter.post(
-  "/create",
-  authenticateToken,
-  validateBody(Department.create),
-  departmentController.createDepartment
+    "/create",
+    authenticateToken,
+    validateBody(Department.create),
+    departmentController.createDepartment
 );
 
 departmentRouter.get(
-  "/get",
-  authenticateToken,
-  departmentController.getDepartment
+    "/get",
+    departmentController.getDepartment
 );
 
 module.exports = departmentRouter;

@@ -5,7 +5,7 @@ console.log('Process Env is:',process.env.NODE_ENV)
 const dotenv = require("dotenv");
 if (process.env.NODE_ENV === 'development' ) {
         dotenv.config({
-            path: path.join(__dirname, "../.env"),
+            path: path.join(__dirname, "../.env.development"),
         });
     }
     

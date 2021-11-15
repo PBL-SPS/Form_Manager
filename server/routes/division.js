@@ -6,12 +6,12 @@ const validateBody = require("../middlewares/validateBody");
 const Division = require("../schemas/Division");
 
 divisionRouter.post(
-  "/create",
-  authenticateToken,
-  validateBody(Division.create),
-  divisionController.createDivision
+    "/create",
+    authenticateToken,
+    validateBody(Division.create),
+    divisionController.createDivision
 );
 
-divisionRouter.get("/get", authenticateToken, divisionController.getDivision);
+divisionRouter.get("/get", divisionController.getDivision);
 
 module.exports = divisionRouter;

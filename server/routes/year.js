@@ -12,6 +12,6 @@ yearRouter.post(
   yearController.createYear
 );
 
-yearRouter.get("/get", authenticateToken, yearController.getYear);
+yearRouter.get("/get", yearController.getYear);
 
 module.exports = yearRouter;
