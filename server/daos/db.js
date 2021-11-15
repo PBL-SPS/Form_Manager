@@ -1,13 +1,14 @@
 const util = require("util");
 const mysql = require("mysql");
 const path = require("path");
-console.log(process.env.NODE_ENV)
-if (process.env.NODE_ENV === "development") {
-    require("dotenv").config({
-        path: path.join(__dirname, "../.env.development"),
-    });
-}
-
+console.log('Process Env is:',process.env.NODE_ENV)
+const dotenv = require("dotenv");
+if (process.env.NODE_ENV === 'development' ) {
+        dotenv.config({
+            path: path.join(__dirname, "../.env"),
+        });
+    }
+    
 console.log({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
