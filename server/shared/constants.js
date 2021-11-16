@@ -1,5 +1,8 @@
 exports.TABLES = {
     ADMIN: "admins",
-    FORM : "forms",
-    VISIBILITY : "visibilities"
+    DIVISION: "divisions",
+    DEPARTMENT: "departments",
+    YEAR: "years",
+    FORM: "forms",
+    VISIBILITY: "visibilities",
 };

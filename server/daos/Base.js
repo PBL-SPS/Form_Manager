@@ -7,9 +7,11 @@ class Base {
         this.conn = dbConn;
     }
 
-    async create(createData) {
+    async create(createData, generateId=true) {
         let data = { ...createData };
-        data.id = uuidv4();
+        if (generateId) {
+            data.id = uuidv4();
+        }
         let columns = Object.keys(data);
         let values = Object.values(data);
         let sql = "INSERT INTO ?? ";
@@ -27,12 +29,8 @@ class Base {
         return data.id;
     }
 
-    async getByProperty(property, value) {
-        let sql = mysql.format("SELECT * FROM ?? WHERE ??=?", [
-            this.table,
-            property,
-            value,
-        ]);
+    async getData() {
+        let sql = mysql.format("SELECT * FROM ??", [this.table]);
         return this.conn.query(sql);
     }
 
@@ -78,6 +76,25 @@ class Base {
 
     async getAll() {
         let sql = mysql.format("SELECT * FROM ??", [this.table]);
+        return this.conn.query(sql);
+    }
+    async getByProperty(property, value) {
+        let sql = mysql.format("SELECT * FROM ?? WHERE ??=?", [
+            this.table,
+            property,
+            value,
+        ]);
+        return this.conn.query(sql);
+    }
+
+    async updateByProperty(property, value, updateProperty, updateValue) {
+        let sql = mysql.format("UPDATE ?? SET ??=? WHERE ??=?", [
+            this.table,
+            updateProperty,
+            updateValue,
+            property,
+            value,
+        ]);
         return this.conn.query(sql);
     }
 }
