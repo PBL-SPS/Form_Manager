@@ -1,16 +1,44 @@
-import { ArrowForward, Check, Delete, DeleteOutline, ErrorOutline, MoreVert, ScheduleOutlined, NotInterestedOutlined } from "@mui/icons-material";
-import { Box, Button, Card, CardActions, CardContent, Chip, CircularProgress, FormControlLabel, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Switch, Typography } from "@mui/material";
+import {
+  ArrowForward,
+  Check,
+  DeleteOutline,
+  MoreVert,
+  NotInterestedOutlined,
+  ScheduleOutlined,
+} from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
+  CircularProgress,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import Ellipsis from "@quid/react-ellipsis";
-import React from "react";
-import { Form } from "../hooks/useGetForms";
 import moment from "moment";
-import useEditForm from "../hooks/useEditForm";
-import useDeleteForm from "../hooks/useDeleteForm";
+import React from "react";
+import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import useDeleteForm from "../hooks/useDeleteForm";
+import useEditForm from "../hooks/useEditForm";
+import { Form } from "../hooks/useGetForms";
 
 const FormCard = ({ form }: { form: Form }) => {
-  const { mutate: editForm, error, isLoading: isEditing } = useEditForm({ formId: form.id });
-  const { mutate: deleteForm, isLoading: isDeleting } = useDeleteForm({ formId: form.id });
+  const {
+    mutate: editForm,
+    error,
+    isLoading: isEditing,
+  } = useEditForm({ formId: form.id });
+  const { mutate: deleteForm, isLoading: isDeleting } = useDeleteForm({
+    formId: form.id,
+  });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { isLoggedIn } = useAuth();
   const isExpired = moment(form.deadline).isSameOrBefore(moment());
@@ -26,7 +54,7 @@ const FormCard = ({ form }: { form: Form }) => {
     {
       name: form.is_active ? "Disable" : "Activate",
       icon: form.is_active ? <NotInterestedOutlined /> : <Check />,
-      onClick: () => editForm({ is_active: !form.is_active })
+      onClick: () => editForm({ is_active: !form.is_active }),
     },
     {
       name: "Delete",
@@ -43,46 +71,68 @@ const FormCard = ({ form }: { form: Form }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        position: "relative"
+        position: "relative",
       }}
     >
       <CardContent>
-        {isLoggedIn && <Box display={"flex"} justifyContent={"space-between"} mb={1} alignItems={"center"}>
-          {form.is_active ? <Chip icon={<Check color="success" />} label="Active" variant="outlined" size="small" color="success" /> : <Chip icon={<NotInterestedOutlined />} label="Inactive" variant="outlined" size="small" color="warning" />
-          }
-          <IconButton
-            aria-label="more"
-            id="long-button"
-            aria-controls="long-menu"
-            aria-expanded={open ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleClick}
+        {isLoggedIn && (
+          <Box
+            display={"flex"}
+            justifyContent={"space-between"}
+            mb={1}
+            alignItems={"center"}
           >
-            <MoreVert />
-          </IconButton>
-          <Menu
-            id="long-menu"
-            MenuListProps={{
-              'aria-labelledby': 'long-button',
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-          >
-            {options.map((option) => (
-              <MenuItem key={option.name} onClick={() => {
-                handleClose();
-                option.onClick();
-              }}>
-                <ListItemIcon>
-                  {option.icon}
-                </ListItemIcon>
-                <ListItemText>{option.name}</ListItemText>
-              </MenuItem>
-            ))}
-          </Menu>
-
-        </Box>}
+            {form.is_active ? (
+              <Chip
+                icon={<Check color="success" />}
+                label="Active"
+                variant="outlined"
+                size="small"
+                color="success"
+              />
+            ) : (
+              <Chip
+                icon={<NotInterestedOutlined />}
+                label="Inactive"
+                variant="outlined"
+                size="small"
+                color="warning"
+              />
+            )}
+            <IconButton
+              aria-label="more"
+              id="long-button"
+              aria-controls="long-menu"
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              <MoreVert />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              MenuListProps={{
+                "aria-labelledby": "long-button",
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+            >
+              {options.map((option) => (
+                <MenuItem
+                  key={option.name}
+                  onClick={() => {
+                    handleClose();
+                    option.onClick();
+                  }}
+                >
+                  <ListItemIcon>{option.icon}</ListItemIcon>
+                  <ListItemText>{option.name}</ListItemText>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        )}
         <Typography variant="h5" component="div" mb={1}>
           {form.title}
         </Typography>
@@ -92,27 +142,50 @@ const FormCard = ({ form }: { form: Form }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Box display="flex" justifyContent="space-between" width={"100%"} px={1}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          width={"100%"}
+          px={1}
+        >
           <Box display="flex" alignItems="center">
-            <Chip icon={<ScheduleOutlined color="primary" />} label={!!form.deadline ? isExpired ? "Expired" : moment(form.deadline).format("DD/MM/YYYY h:mm a") : "No deadline"} variant="outlined" size="small" color={isExpired ? "error" : "info"} />
+            <Chip
+              icon={<ScheduleOutlined color="primary" />}
+              label={
+                !!form.deadline
+                  ? isExpired
+                    ? "Expired"
+                    : moment(form.deadline).format("DD/MM/YYYY h:mm a")
+                  : "No deadline"
+              }
+              variant="outlined"
+              size="small"
+              color={isExpired ? "error" : "info"}
+            />
           </Box>
-          <Button variant="text" endIcon={<ArrowForward />} size="small">{isLoggedIn ? "Responses" : "Open"} </Button>
+          <Link to="/response">
+            <Button variant="text" endIcon={<ArrowForward />} size="small">
+              {isLoggedIn ? "Responses" : "Respond"}{" "}
+            </Button>
+          </Link>
         </Box>
       </CardActions>
-      {(isEditing || isDeleting) && <Box
-        flexGrow={1}
-        width="100%"
-        height={"100%"}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        position={"absolute"}
-        style={{
-          backgroundColor: "rgba(0, 0, 0, 0.3)"
-        }}
-      >
-        <CircularProgress />
-      </Box>}
+      {(isEditing || isDeleting) && (
+        <Box
+          flexGrow={1}
+          width="100%"
+          height={"100%"}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          position={"absolute"}
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
     </Card>
   );
 };
