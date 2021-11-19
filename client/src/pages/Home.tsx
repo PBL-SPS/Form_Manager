@@ -21,7 +21,7 @@ const Home = () => {
                     {data &&
                         data.filter(form => {
                             if (isLoggedIn) return true;
-                            return form.is_active && !!form.deadline ? !moment(form.deadline).isSameOrBefore(moment()) : true;
+                            return form.is_active && (!!form.deadline ? !moment(form.deadline).isSameOrBefore(moment()) : true);
                         }).map((form) => (
                             <Grid item xs={12} md={6} key={form.id.toString()}>
                                 <FormCard form={form} />
