@@ -20,6 +20,7 @@ const Response = () => {
           flexDirection: "column",
           justifyContent: "space-between",
           marginTop: "20px",
+          overflow: "hidden",
         }}
         variant="outlined"
       >

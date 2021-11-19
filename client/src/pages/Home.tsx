@@ -1,52 +1,17 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Grid } from "@mui/material";
 import { Box } from "@mui/system";
-import Ellipsis from "@quid/react-ellipsis";
+import moment from "moment";
 import React, { useState } from "react";
 import ContainerSpinner from "../components/ContainerSpinner";
 import FilterModal from "../components/FilterModal";
-import useGetForms, { Form } from "../hooks/useGetForms";
-import { Link } from "react-router-dom";
+import FormCard from "../components/FormCard";
+import useAuth from "../hooks/useAuth";
+import useGetForms from "../hooks/useGetForms";
 
-const FormCard = ({ form }: { form: Form }) => {
-  return (
-    <Card
-      variant="outlined"
-      style={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-    >
-      <CardContent>
-        <Typography variant="h5" component="div">
-          {form.title}
-        </Typography>
-
-        <Typography variant="body2" component="div">
-          <Ellipsis maxHeight={70}>{form.description}</Ellipsis>
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Link to="/response" style={{ textDecoration: "none" }}>
-          <Button size="small">Respond</Button>
-        </Link>
-      </CardActions>
-    </Card>
-  );
-};
-``;
 const Home = () => {
   const { data, isLoading } = useGetForms();
   const [open, setOpen] = useState(false);
+  const { isLoggedIn } = useAuth();
 
   const handleClose = () => {
     setOpen(false);
@@ -64,13 +29,23 @@ const Home = () => {
           Filter
         </Button>
         <FilterModal open={open} handleClose={handleClose} />
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           {data &&
-            data.map((form) => (
-              <Grid item xs={12} md={6} key={form.id.toString()}>
-                <FormCard form={form} />
-              </Grid>
-            ))}
+            data
+              .filter((form) => {
+                if (isLoggedIn) return true;
+                return (
+                  form.is_active &&
+                  (!!form.deadline
+                    ? !moment(form.deadline).isSameOrBefore(moment())
+                    : true)
+                );
+              })
+              .map((form) => (
+                <Grid item xs={12} md={6} key={form.id.toString()}>
+                  <FormCard form={form} />
+                </Grid>
+              ))}
         </Grid>
       </Box>
     </Container>

@@ -20,7 +20,7 @@ export interface Form {
     id: string;
     title: string;
     description: string;
-    is_active: number;
+    is_active: number | boolean;
     form_data: string;
     created_by: string;
     created_at: string;

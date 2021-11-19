@@ -9,6 +9,7 @@ import Modal from "@mui/material/Modal";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import React, { useState } from "react";
+import useGetFilters from "../hooks/useGetFilters";
 
 const style = {
   position: "absolute" as "absolute",
@@ -63,6 +64,9 @@ const FilterModal = ({
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const { data } = useGetFilters();
+
   return (
     <>
       <Modal
@@ -91,25 +95,23 @@ const FilterModal = ({
             </Box>
             <TabPanel value={value} index={0}>
               <FormGroup>
-                <FormControlLabel control={<Checkbox />} label="CS" />
-                <FormControlLabel control={<Checkbox />} label="IT" />
-                <FormControlLabel control={<Checkbox />} label="EnTC" />
+                {data?.departments.map((dept) => (
+                  <FormControlLabel control={<Checkbox />} label={dept.name} />
+                ))}
               </FormGroup>
             </TabPanel>
             <TabPanel value={value} index={1}>
               <FormGroup>
-                <FormControlLabel control={<Checkbox />} label="FE" />
-                <FormControlLabel control={<Checkbox />} label="SE" />
-                <FormControlLabel control={<Checkbox />} label="TE" />
-                <FormControlLabel control={<Checkbox />} label="BE " />
+                {data?.years.map((year) => (
+                  <FormControlLabel control={<Checkbox />} label={year.name} />
+                ))}
               </FormGroup>
             </TabPanel>
             <TabPanel value={value} index={2}>
               <FormGroup>
-                <FormControlLabel control={<Checkbox />} label="1" />
-                <FormControlLabel control={<Checkbox />} label="2" />
-                <FormControlLabel control={<Checkbox />} label="3" />
-                <FormControlLabel control={<Checkbox />} label="4" />
+                {data?.divisions.map((div) => (
+                  <FormControlLabel control={<Checkbox />} label={div.name} />
+                ))}
               </FormGroup>
             </TabPanel>
             <Button variant="contained" sx={{ float: "right" }}>
