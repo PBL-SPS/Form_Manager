@@ -7,11 +7,13 @@ import FilterModal from "../components/FilterModal";
 import FormCard from "../components/FormCard";
 import useAuth from "../hooks/useAuth";
 import useGetForms from "../hooks/useGetForms";
+import {useHistory} from "react-router-dom"
 
 const Home = () => {
   const { data, isLoading } = useGetForms();
   const [open, setOpen] = useState(false);
   const { isLoggedIn } = useAuth();
+  const history = useHistory();
 
   const handleClose = () => {
     setOpen(false);
@@ -21,6 +23,7 @@ const Home = () => {
     <Container fixed>
       <Box py={5}>
         {isLoading && <ContainerSpinner />}
+        <Box display="flex" width="100%" justifyContent="space-between" alignItems="center" pb={4}>
         <Button
           onClick={() => setOpen(true)}
           variant="contained"
@@ -28,6 +31,14 @@ const Home = () => {
         >
           Filter
         </Button>
+        <Button
+          onClick={() => history.push("/new")}
+          variant="contained"
+          sx={{ mb: 3 }}
+        >
+          Create Form
+        </Button>
+        </Box>
         <FilterModal open={open} handleClose={handleClose} />
         <Grid container spacing={3}>
           {data &&

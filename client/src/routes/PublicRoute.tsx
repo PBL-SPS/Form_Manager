@@ -4,11 +4,13 @@ import AuthWrapper from "./AuthWrapper";
 function PublicRoute({
     children,
     isAuthenticated,
+    path,
     ...rest
 }: {
     children: any;
     isAuthenticated: boolean;
     rest : any;
+    path? : string;
 }) {
     return (
         <Route
