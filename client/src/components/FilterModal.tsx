@@ -55,14 +55,39 @@ function a11yProps(index: number) {
 const FilterModal = ({
   open = false,
   handleClose,
+  setFilters,
 }: {
   open: boolean;
   handleClose: () => void;
+  setFilters: any;
 }) => {
   const [value, setValue] = useState(0);
+  const [departmentId, setDepartmentId] = useState(0);
+  const [yearId, setYearId] = useState(0);
+  const [divisionId, setDivisionId] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const onSubmit = () => {
+    console.log("Department values->", departmentId);
+    console.log("year values->", yearId);
+    console.log("division values->", divisionId);
+
+    setFilters({
+      departments: departmentId,
+      years: yearId,
+      divisions: divisionId,
+    });
+  };
+
+  const clearAll = () => {
+    setFilters({
+      departments: "",
+      years: "",
+      divisions: "",
+    });
   };
 
   const { data } = useGetFilters();
@@ -96,28 +121,60 @@ const FilterModal = ({
             <TabPanel value={value} index={0}>
               <FormGroup>
                 {data?.departments.map((dept) => (
-                  <FormControlLabel control={<Checkbox />} label={dept.name} />
+                  <FormControlLabel
+                    value={departmentId}
+                    onChange={() => setDepartmentId(dept.id)}
+                    control={<Checkbox />}
+                    label={dept.name}
+                    id={JSON.stringify(dept.id)}
+                  />
                 ))}
               </FormGroup>
             </TabPanel>
             <TabPanel value={value} index={1}>
               <FormGroup>
                 {data?.years.map((year) => (
-                  <FormControlLabel control={<Checkbox />} label={year.name} />
+                  <FormControlLabel
+                    value={yearId}
+                    onChange={() => setYearId(year.id)}
+                    control={<Checkbox />}
+                    label={year.name}
+                    id={JSON.stringify(year.id)}
+                  />
                 ))}
               </FormGroup>
             </TabPanel>
             <TabPanel value={value} index={2}>
               <FormGroup>
                 {data?.divisions.map((div) => (
-                  <FormControlLabel control={<Checkbox />} label={div.name} />
+                  <FormControlLabel
+                    value={divisionId}
+                    onChange={() => setDivisionId(div.id)}
+                    control={<Checkbox />}
+                    label={div.name}
+                    id={JSON.stringify(div.id)}
+                  />
                 ))}
               </FormGroup>
             </TabPanel>
-            <Button variant="contained" sx={{ float: "right" }}>
+            <Button
+              onClick={() => {
+                onSubmit();
+                handleClose();
+              }}
+              variant="contained"
+              sx={{ float: "right" }}
+            >
               Apply
             </Button>
-            <Button variant="outlined" sx={{ mr: 2, float: "right" }}>
+            <Button
+              onClick={() => {
+                clearAll();
+                handleClose();
+              }}
+              variant="outlined"
+              sx={{ mr: 2, float: "right" }}
+            >
               Clear All
             </Button>
           </Box>
