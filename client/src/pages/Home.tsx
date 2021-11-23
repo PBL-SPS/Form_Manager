@@ -2,16 +2,21 @@ import { Button, Container, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import moment from "moment";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import ContainerSpinner from "../components/ContainerSpinner";
 import FilterModal from "../components/FilterModal";
 import FormCard from "../components/FormCard";
 import useAuth from "../hooks/useAuth";
 import useGetForms from "../hooks/useGetForms";
-import { useHistory } from "react-router-dom";
 
 const Home = () => {
     const { data, isLoading } = useGetForms();
     const [open, setOpen] = useState(false);
+    const [filters, setFilters] = useState({
+        departments: "",
+        years: "",
+        divisions: "",
+    });
     const { isLoggedIn } = useAuth();
     const history = useHistory();
 
@@ -48,7 +53,12 @@ const Home = () => {
                                 Create Form
                             </Button>
                         </Box>
-                        <FilterModal open={open} handleClose={handleClose} />
+                        <FilterModal
+                            open={open}
+                            handleClose={handleClose}
+                            setFilters={setFilters}
+                            filters={filters}
+                        />
                         <Grid container spacing={3}>
                             {data &&
                                 data
@@ -63,6 +73,54 @@ const Home = () => {
                                                 : true)
                                         );
                                     })
+                                    .filter((form) =>
+                                        form?.visibilities?.some(
+                                            (visibility) => {
+                                                console.log(
+                                                    "Filters->",
+                                                    filters
+                                                );
+                                                console.log(
+                                                    "Dept Visibility->",
+                                                    visibility?.department_id
+                                                );
+                                                console.log(
+                                                    "Year Visibility->",
+                                                    visibility?.year_id
+                                                );
+                                                console.log(
+                                                    "Div Visibility->",
+                                                    visibility?.division_id
+                                                );
+                                                let found = false;
+                                                if (
+                                                    filters.years === "" ||
+                                                    filters.departments ===
+                                                        "" ||
+                                                    filters.divisions === ""
+                                                ) {
+                                                    found = true;
+                                                }
+                                                if (!!filters.years) {
+                                                    found =
+                                                        visibility?.year_id.toString() ===
+                                                        filters.years.toString();
+                                                }
+                                                if (!!filters.departments) {
+                                                    found =
+                                                        visibility?.department_id.toString() ===
+                                                        filters.departments.toString();
+                                                }
+                                                if (!!filters.divisions) {
+                                                    found =
+                                                        visibility?.division_id.toString() ===
+                                                        filters.divisions.toString();
+                                                }
+                                                console.log("Found", found);
+                                                return found;
+                                            }
+                                        )
+                                    )
                                     .map((form) => (
                                         <Grid
                                             item
