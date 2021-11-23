@@ -18,7 +18,7 @@ const useCreateForm = () => {
                 data.fields?.reduce(
                     (acc, curr) => {
                         if (curr.required) {
-                            acc.required = [...acc.required, curr.name];
+                            acc.required = [...acc.required, curr.fieldName];
                         }
                         acc.properties[curr.fieldName] = {
                             type: "string",

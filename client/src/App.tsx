@@ -17,6 +17,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import ProtectedRoutes from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
 import { LS_KEYS } from "./utils/constants";
+import 'sweetalert2/dist/sweetalert2.min.css'
 
 const queryClient = new QueryClient();
 const darkTheme = createTheme({
@@ -48,7 +49,7 @@ function App() {
                   <Home />
                 </PublicRoute>
                 <PublicRoute
-                  path="/response"
+                  path="/form/:formId"
                   exact
                   isAuthenticated={isAuthenticated}
                 >
