@@ -75,7 +75,10 @@ const AllResponse = () => {
                   <TableCell
                     key={column.id}
                     align={column.align}
-                    style={{ minWidth: column.minWidth }}
+                    style={{
+                      minWidth: column.minWidth,
+                      backgroundColor: "#525252",
+                    }}
                   >
                     {column.label}
                   </TableCell>
