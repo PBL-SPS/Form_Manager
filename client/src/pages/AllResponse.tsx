@@ -27,15 +27,17 @@ const AllResponse = () => {
   const { data, isLoading } = useGetResponses(formId);
 
   if (data) {
-    columns = !!data?.responseData[0]?.response_data ? Object.keys(JSON.parse(data?.responseData[0]?.response_data)).map(
-      (key) => {
-        return {
-          id: key,
-          label: key,
-          minWidth: 300,
-        };
-      }
-    ) : [];
+    columns = !!data?.responseData[0]?.response_data
+      ? Object.keys(JSON.parse(data?.responseData[0]?.response_data)).map(
+          (key) => {
+            return {
+              id: key,
+              label: key,
+              minWidth: 300,
+            };
+          }
+        )
+      : [];
 
     if (data?.responseData) {
       data?.responseData.map((response: any) =>
@@ -130,7 +132,9 @@ const AllResponse = () => {
       ) : isLoading ? (
         <ContainerSpinner />
       ) : (
-        <Typography variant="h4">No Responses yet</Typography>
+        <Typography sx={{ mt: 7 }} variant="h4">
+          No Responses yet
+        </Typography>
       )}
     </Container>
   );
