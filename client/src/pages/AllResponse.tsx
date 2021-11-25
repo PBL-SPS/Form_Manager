@@ -27,7 +27,7 @@ const AllResponse = () => {
   const { data, isLoading } = useGetResponses(formId);
 
   if (data) {
-    columns = Object.keys(JSON.parse(data?.responseData[0]?.response_data)).map(
+    columns = !!data?.responseData[0]?.response_data ? Object.keys(JSON.parse(data?.responseData[0]?.response_data)).map(
       (key) => {
         return {
           id: key,
@@ -35,7 +35,7 @@ const AllResponse = () => {
           minWidth: 300,
         };
       }
-    );
+    ) : [];
 
     if (data?.responseData) {
       data?.responseData.map((response: any) =>
